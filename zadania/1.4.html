@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temat 4: Programowanie zorientowane obiektowo w JS</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #0056b3; }
+        h2 { color: #d9534f; border-bottom: 2px solid #d9534f; padding-bottom: 5px; }
+        .info { background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .diagram-container { text-align: center; margin: 20px 0; padding: 10px; border: 1px dashed #aaa; background-color: #fff; }
+        .output { background-color: #f8f9fa; padding: 20px; border-left: 5px solid #28a745; font-size: 1.1em; }
+        code { background-color: #ddd; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Moduł 1, Temat 4: Programowanie obiektowe (OOP)</h1>
+    
+    <div class="info">
+        <p><strong>Uwaga dla ucznia:</strong> Wyobraź sobie, że piszesz grę. Zamiast tworzyć osobne zmienne dla zdrowia, ataku i imienia każdego potwora, tworzysz jedną formę - <strong>Klasę (Class)</strong>. Na jej podstawie możesz stworzyć setki konkretnych potworów - <strong>Obiektów (Objects)</strong>.</p>
+    </div>
+
+    <div class="diagram-container">
+        <p><em>Schemat: Klasa (wzór) vs Obiekty (konkretne instancje)</em></p>
+        
+    </div>
+
+    <h2>Wynik działania skryptu:</h2>
+    <div class="output" id="pojemnik-na-wyniki">
+        Oczekiwanie na uruchomienie skryptu...
+    </div>
+
+    <script>
+        let wynikiHTML = "";
+
+        // ==========================================
+        // 1. OBIEKTY (Proste obiekty dosłowne)
+        // ==========================================
+        // Obiekt to zbiór "właściwości" (zmienne w obiekcie) i "metod" (funkcje w obiekcie).
+        // Używamy nawiasów klamrowych {}.
+
+        let uczen = {
+            imie: "Jan",
+            nazwisko: "Kowalski",
+            wiek: 17,
+            // To jest metoda (funkcja przypisana do obiektu)
+            przedstawSie: function() {
+                // 'this' wskazuje na ten konkretny obiekt, w którym się znajdujemy
+                return `Cześć, jestem ${this.imie} ${this.nazwisko}.`;
+            }
+        };
+
+        wynikiHTML += `<h3>1. Zwykły obiekt:</h3>`;
+        wynikiHTML += `<p>Imię ucznia: <strong>${uczen.imie}</strong></p>`;
+        wynikiHTML += `<p>Wywolanie metody: <strong>${uczen.przedstawSie()}</strong></p>`;
+
+
+        // ==========================================
+        // 2. KLASY (Wzorce do tworzenia obiektów) - ES6
+        // ==========================================
+        // Jeśli chcielibyśmy 30 uczniów, pisanie 30 razy tego samego kodu (jak wyżej) to koszmar.
+        // Dlatego tworzymy KLASĘ - czyli taką pieczątkę / foremkę na ciasteczka.
+
+        class Samochod {
+            // 'constructor' to specjalna funkcja, która odpala się ZAWSZE,
+            // gdy tworzymy nowy obiekt tej klasy (gdy odbijamy nową pieczątkę).
+            constructor(marka, model, rocznik) {
+                this.marka = marka;     // Przypisujemy parametr do właściwości obiektu
+                this.model = model;
+                this.rocznik = rocznik;
+                this.uruchomiony = false;
+            }
+
+            // Metody w klasie piszemy tak:
+            uruchomSilnik() {
+                this.uruchomiony = true;
+                return `Wrrr! Silnik w ${this.marka} ${this.model} odpalony!`;
+            }
+
+            sprawdzWiek(obecnyRok) {
+                return obecnyRok - this.rocznik;
+            }
+        }
+
+
+        // ==========================================
+        // 3. TWORZENIE INSTANCJI (Tworzenie konkretnych obiektów z Klasy)
+        // ==========================================
+        // Używamy słowa kluczowego 'new'.
+
+        // Robimy dwa ciasteczka z naszej foremki "Samochod"
+        let auto1 = new Samochod("Ford", "Mustang", 2015);
+        let auto2 = new Samochod("Toyota", "Yaris", 2022);
+
+        wynikiHTML += `<h3>2. Klasy i Obiekty (Instancje):</h3>`;
+        wynikiHTML += `<p>Auto 1 to: ${auto1.marka} ${auto1.model}. Czy działa? ${auto1.uruchomiony}</p>`;
+        wynikiHTML += `<p>Akcja: <strong>${auto1.uruchomSilnik()}</strong></p>`;
+        wynikiHTML += `<p>Teraz auto 1 działa? ${auto1.uruchomiony}</p>`;
+        
+        wynikiHTML += `<p>Wiek Auta 2 (Toyota) wynosi: <strong>${auto2.sprawdzWiek(2024)} lat</strong>.</p>`;
+
+
+        // ==========================================
+        // WYŚWIETLENIE WYNIKÓW
+        // ==========================================
+        document.getElementById("pojemnik-na-wyniki").innerHTML = wynikiHTML;
+
+    </script>
+</body>
+</html>

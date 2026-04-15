@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadania 1.4: Programowanie obiektowe</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #d9534f; }
+        h2 { color: #0275d8; border-bottom: 2px solid #0275d8; padding-bottom: 5px;}
+        .instruction { background-color: #fcf8e3; padding: 15px; border-left: 5px solid #f0ad4e; margin-bottom: 20px; }
+        .task-container { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .output { margin-top: 15px; padding: 10px; background-color: #e8f5e9; border: 1px dashed #4caf50; font-family: monospace; font-size: 1.1em; }
+        .error { background-color: #f8d7da; border: 1px dashed #dc3545; color: #721c24; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Zadania praktyczne: Moduł 1, Temat 4</h1>
+    
+    <div class="instruction">
+        <p><strong>Instrukcja:</strong> Zjeżdżamy na dół pliku i tworzymy własne klasy! Pamiętaj o używaniu słowa <code>this</code>, gdy odwołujesz się do właściwości wewnątrz klasy.</p>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 1: Prosty obiekt</h2>
+        <p>Stwórz zwykły obiekt o nazwie <code>mojPies</code>. Niech posiada właściwości: <code>imie</code> (tekst), <code>rasa</code> (tekst) oraz metodę <code>szczekaj()</code>, która zwraca tekst "Hau hau!".</p>
+        <div class="output" id="wynik1">Oczekiwanie na rozwiązanie...</div>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 2 & 3: Klasa Bohater i jej Konstruktor</h2>
+        <p>Stwórz klasę o nazwie <code>Bohater</code>. Dodaj w niej <code>constructor</code>, który przyjmuje parametry <code>nazwa</code> oraz <code>punktyZycia</code>. Wewnątrz konstruktora przypisz je do obiektu za pomocą <code>this</code>.</p>
+        <p>Dodaj do klasy metodę <code>otrzymajObrazenia(ilosc)</code>, która odejmie od punktów życia podaną ilość i zwróci tekst: "Otrzymano [ilosc] obrażeń! Zostało [punktyZycia] HP."</p>
+        <div class="output" id="wynik2">Oczekiwanie na rozwiązanie...</div>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 4: Tworzenie instancji</h2>
+        <p>Powołaj swojego bohatera do życia! Użyj słowa kluczowego <code>new</code> i stwórz obiekt o nazwie <code>mojWojownik</code> na podstawie klasy <code>Bohater</code>. Podaj mu dowolną nazwę i np. 100 punktów życia.</p>
+        <div class="output" id="wynik3">Oczekiwanie na rozwiązanie...</div>
+    </div>
+
+    <script>
+        // ==========================================
+        // MIEJSCE NA ROZWIĄZANIA ZADAŃ
+        // ==========================================
+
+        // --- ZADANIE 1 ---
+        /* --- TWÓJ KOD TUTAJ --- */
+        // let mojPies = { ... };
+        
+        let mojPies = {
+            imie : "reksio",
+            rasa : "labrador",
+            szczekaj : function() {
+                return( `Hau hau!` );
+            }
+        };
+
+
+
+        // --- ZADANIE 2 i 3 ---
+        /* --- TWÓJ KOD TUTAJ --- */
+        // class Bohater { ... }
+        
+        class Bohater {
+            constructor( nazwa, punktyZycia ) {
+                this.nazwa = nazwa;
+                this.punktyZycia = punktyZycia;
+            };
+
+            otrzymajObrazenia( ilosc ) {
+                this.punktyZycia = parseFloat(this.punktyZycia) - ilosc;
+                return "Otrzymano " + ilosc + " obrażeń! Zostało " + this.punktyZycia + " HP.";
+            };
+            
+        }
+
+
+
+        // --- ZADANIE 4 ---
+        /* --- TWÓJ KOD TUTAJ --- */
+        // let mojWojownik = new Bohater(...);
+        
+        let mojWojownik = new Bohater(
+        this.nazwa = "heimdall",
+        this.punktyZycia = 100
+        );
+
+
+
+        // ==========================================
+        // KOD SPRAWDZAJĄCY (Nie modyfikuj poniżej!)
+        // ==========================================
+        try {
+            if(mojPies && mojPies.imie && typeof mojPies.szczekaj === 'function') {
+                document.getElementById('wynik1').innerHTML = `Super! Twój pies to: ${mojPies.imie} (${mojPies.rasa}). Daje głos: <strong>${mojPies.szczekaj()}</strong>`;
+            } else {
+                document.getElementById('wynik1').innerHTML = `<div class='error'>Błąd: Upewnij się, że obiekt 'mojPies' ma 'imie', 'rasa' i metodę 'szczekaj()'.</div>`;
+            }
+        } catch(e) { document.getElementById('wynik1').innerHTML = "<div class='error'>Błąd: Brak zadeklarowanego obiektu 'mojPies'.</div>"; }
+
+        try {
+            if (typeof Bohater === 'function') { // W JS klasy to "pod maską" funkcje
+                let testBohater = new Bohater("Testowy", 50);
+                if(testBohater.nazwa && testBohater.punktyZycia !== undefined && typeof testBohater.otrzymajObrazenia === 'function') {
+                    let wynikAtaku = testBohater.otrzymajObrazenia(10);
+                    if(testBohater.punktyZycia === 40) {
+                        document.getElementById('wynik2').innerHTML = `Klasa napisana idealnie! Wynik ataku: <strong>${wynikAtaku}</strong>`;
+                    } else {
+                        document.getElementById('wynik2').innerHTML = `<div class='error'>Błąd: Metoda otrzymywania obrażeń nie odejmuje poprawnie punktów życia (było 50, odjęto 10, a wynik to ${testBohater.punktyZycia}).</div>`;
+                    }
+                } else {
+                     document.getElementById('wynik2').innerHTML = `<div class='error'>Błąd: Klasa istnieje, ale brakuje konstruktora (nazwa, punktyZycia) lub metody otrzymywania obrażeń.</div>`;
+                }
+            }
+        } catch(e) { document.getElementById('wynik2').innerHTML = "<div class='error'>Błąd: Brak zadeklarowanej klasy 'Bohater'. Pamiętaj o dużej literze!</div>"; }
+
+        try {
+            if(mojWojownik instanceof Bohater) {
+                document.getElementById('wynik3').innerHTML = `Instancja gotowa do walki! Wkracza: <strong>${mojWojownik.nazwa}</strong> posiadający <strong>${mojWojownik.punktyZycia} HP</strong>.`;
+            } else {
+                document.getElementById('wynik3').innerHTML = `<div class='error'>Błąd: Zmienna 'mojWojownik' nie jest instancją klasy Bohater. Pamiętaj o 'new'!</div>`;
+            }
+        } catch(e) { document.getElementById('wynik3').innerHTML = "<div class='error'>Błąd: Brak stworzonego obiektu 'mojWojownik'.</div>"; }
+
+    </script>
+</body>
+</html>
