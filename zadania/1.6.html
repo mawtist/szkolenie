@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temat 6: Moduły w JavaScript</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #0056b3; }
+        h2 { color: #d9534f; border-bottom: 2px solid #d9534f; padding-bottom: 5px; }
+        .info { background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #0056b3;}
+        .warning { background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #ffc107;}
+        .diagram-container { text-align: center; margin: 20px 0; padding: 10px; border: 1px dashed #aaa; background-color: #fff; }
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: monospace; font-size: 1.1em; margin-bottom: 20px; }
+        code { background-color: #ddd; padding: 2px 5px; border-radius: 3px; font-weight: bold; color: #333; }
+        .keyword { color: #ff79c6; } /* Różowy dla słów kluczowych */
+        .string { color: #f1fa8c; } /* Żółty dla tekstu */
+        .comment { color: #6272a4; } /* Szary dla komentarzy */
+    </style>
+</head>
+<body>
+
+    <h1>Moduł 1, Temat 6: Moduły w JavaScript (Import / Export)</h1>
+    
+    <div class="info">
+        <p><strong>Po co nam moduły?</strong> Zamiast pisać 2000 linijek kodu w jednym pliku, możemy stworzyć osobny plik np. <code>matematyka.js</code> (tylko do obliczeń), osobny <code>interfejs.js</code> (do przycisków) i połączyć je ze sobą w głównym pliku <code>app.js</code>.</p>
+    </div>
+
+    <div class="warning">
+        <p><strong>Wymagany Live Server!</strong> Moduły nie zadziałają, jeśli po prostu klikniesz plik HTML na dysku dwa razy. Musisz otworzyć projekt w edytorze (np. VS Code) i użyć rozszerzenia takiego jak "Live Server", aby oszukać przeglądarkę, że strona działa w prawdziwym internecie.</p>
+    </div>
+
+    <div class="diagram-container">
+        <p><em>Schemat: Jak pliki komunikują się ze sobą za pomocą Export i Import</em></p>
+        
+    </div>
+
+    <h2>1. EXPORT (Wysyłanie danych z pliku)</h2>
+    <p>Wyobraźmy sobie, że stworzyliśmy plik o nazwie <strong><code>matematyka.js</code></strong>. Chcemy, aby inne pliki mogły z niego korzystać. Musimy użyć słowa <span class="keyword">export</span>.</p>
+
+    <div class="code-block">
+<span class="comment">// --- Zawartość pliku matematyka.js ---</span>
+
+<span class="comment">// Sposób 1: Export nazwany (Named export) - stawiamy słowo 'export' przed zmienną lub funkcją.</span>
+<span class="keyword">export</span> const PI = 3.14159;
+
+<span class="keyword">export</span> function dodaj(a, b) {
+    return a + b;
+}
+
+<span class="comment">// Sposób 2: Export domyślny (Default export) - może być TYLKO JEDEN w całym pliku! 
+// Zazwyczaj eksportujemy w ten sposób najważniejszą rzecz w pliku (np. główną Klasę).</span>
+class Kalkulator {
+    /* kod klasy... */
+}
+<span class="keyword">export default</span> Kalkulator;
+    </div>
+
+    <h2>2. IMPORT (Odbieranie danych w innym pliku)</h2>
+    <p>Teraz tworzymy nasz główny plik aplikacji, np. <strong><code>app.js</code></strong>. Chcemy w nim użyć rzeczy z pliku matematycznego.</p>
+
+    <div class="code-block">
+<span class="comment">// --- Zawartość pliku app.js ---</span>
+
+<span class="comment">// Importowanie rzeczy nazwanych odbywa się w klamrach { }. Nazwy muszą się zgadzać!</span>
+<span class="keyword">import</span> { PI, dodaj } <span class="keyword">from</span> <span class="string">'./matematyka.js'</span>;
+
+<span class="comment">// Importowanie rzeczy domyślnych (Default) odbywa się BEZ klamer. 
+// Możemy ją tu nazwać jak chcemy, ale dobrym zwyczajem jest trzymać się oryginału.</span>
+<span class="keyword">import</span> Kalkulator <span class="keyword">from</span> <span class="string">'./matematyka.js'</span>;
+
+console.log( <span class="string">"Liczba PI to:"</span>, PI );
+console.log( <span class="string">"Wynik dodawania:"</span>, dodaj(5, 10) );
+
+let mojKalkulator = new Kalkulator();
+    </div>
+
+    <h2>3. PODPIĘCIE DO HTML</h2>
+    <p>Aby to wszystko zadziałało na naszej stronie internetowej, w pliku HTML musimy podpiąć tylko nasz GŁÓWNY plik (np. app.js) i koniecznie dodać atrybut <code>type="module"</code>. Przeglądarka sama "dociągnie" resztę plików dzięki importom.</p>
+
+    <div class="code-block">
+<span class="comment">&lt;!-- Zawartość pliku index.html --&gt;</span>
+&lt;body&gt;
+    &lt;h1&gt;Moja Aplikacja&lt;/h1&gt;
+
+    <span class="comment">&lt;!-- Atrybut type="module" mówi przeglądarce: "Hej, w tym skrypcie będą importy i eksporty!" --&gt;</span>
+    &lt;script <span class="keyword">type</span>=<span class="string">"module"</span> src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;
+&lt;/body&gt;
+    </div>
+
+</body>
+</html>
