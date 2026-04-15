@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadania 1.5: Model DOM i Zdarzenia</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #d9534f; }
+        h2 { color: #0275d8; border-bottom: 2px solid #0275d8; padding-bottom: 5px;}
+        .instruction { background-color: #fcf8e3; padding: 15px; border-left: 5px solid #f0ad4e; margin-bottom: 20px; }
+        .task-container { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        
+        /* Klasy do zadań */
+        #kwadrat-zadanie { width: 100px; height: 100px; background-color: #ccc; margin: 10px 0; display: flex; align-items: center; justify-content: center;}
+        .przycisk-zadania { padding: 8px 16px; margin-right: 10px; cursor: pointer; }
+        #haslo-input { padding: 5px; }
+        #tajna-wiadomosc { color: red; font-weight: bold; display: none; } /* Domyślnie ukryte */
+    </style>
+</head>
+<body>
+
+    <h1>Zadania praktyczne: Moduł 1, Temat 5</h1>
+    
+    <div class="instruction">
+        <p><strong>Instrukcja:</strong> Zjedź do skryptu na samym dole. Twoim zadaniem jest napisanie kodu, który ożywi poniższe elementy. Po napisaniu kodu, po prostu użyj interfejsu (klikaj, wpisuj), aby sprawdzić, czy działa!</p>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 1: Złap je wszystkie</h2>
+        <p>W skrypcie stwórz dwie zmienne: <code>guzik</code> oraz <code>kwadrat</code>. Złap do nich poniższe elementy za pomocą <code>document.getElementById()</code>.</p>
+        <button id="magiczny-guzik" class="przycisk-zadania">Powiększ kwadrat</button>
+        <div id="kwadrat-zadanie">Mały</div>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 2: Dodaj Event Listener</h2>
+        <p>Spraw, aby po kliknięciu w "Powiększ kwadrat" (zmienna <code>guzik</code>), powiększała się szerokość kwadratu i zmieniał jego tekst. Podpowiedź: <code>kwadrat.style.width = "300px"</code> oraz <code>kwadrat.innerText = "Duży!"</code>.</p>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie 3: Reakcja na wpisywanie (Hasło)</h2>
+        <p>Złap element <code>#haslo-input</code> oraz element <code>#tajna-wiadomosc</code>. Dodaj nasłuchiwacz zdarzeń (<code>input</code>) na pole hasła. Jeśli ktoś wpisze tam słowo <strong>"sekret"</strong>, zmień styl tajnej wiadomości na widoczny: <code>wiadomosc.style.display = "block"</code>.</p>
+        Wpisz hasło: <input type="text" id="haslo-input">
+        <p id="tajna-wiadomosc">Gratulacje! Znasz tajne hasło!</p>
+    </div>
+
+    <script>
+        // ==========================================
+        // MIEJSCE NA ROZWIĄZANIA ZADAŃ
+        // ==========================================
+
+        // --- ZADANIE 1 ---
+        // Pamiętaj: id dla guzika to "magiczny-guzik", a dla kwadratu "kwadrat-zadanie"
+        /* --- TWÓJ KOD TUTAJ --- */
+        // const guzik = ...
+        // const kwadrat = ...
+        
+        const guzik = document.getElementById( "magiczny-guzik" );
+        const kwadrat = document.getElementById( "kwadrat-zadanie" );
+
+
+        // --- ZADANIE 2 ---
+        // Użyj: guzik.addEventListener("click", () => { ... })
+        /* --- TWÓJ KOD TUTAJ --- */
+        
+        guzik.addEventListener( 'click',() => {
+            kwadrat.style.width = "300px";
+            kwadrat.innerText = "Duży";
+        });
+        
+
+
+
+        // --- ZADANIE 3 ---
+        // 1. Złap oba elementy po ID (haslo-input oraz tajna-wiadomosc)
+        // 2. Dodaj zdarzenie "input" na pole hasła
+        // 3. W środku funkcji sprawdź if (zdarzenie.target.value === "sekret") { ... }
+        
+        /* --- TWÓJ KOD TUTAJ --- */
+        const inputHaslo = document.getElementById( "haslo-input" );
+        const wiadomosc = document.getElementById( "tajna-wiadomosc" );
+        // const inputHaslo = document.getElementById("haslo-input");
+        // const wiadomosc = document.getElementById("tajna-wiadomosc");
+        
+
+        inputHaslo.addEventListener( 'input', () => {
+            if( inputHaslo.value === "sekret" ) {
+                wiadomosc.style.display = "block";
+            }
+        });
+        
+        // inputHaslo.addEventListener("input", (zdarzenie) => { ... });
+
+
+
+
+
+    </script>
+</body>
+</html>
