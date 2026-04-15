@@ -71,7 +71,7 @@
             };
 
             otrzymajObrazenia( ilosc ) {
-                this.punktyZycia = parseFloat(this.punktyZycia) - ilosc;
+                this.punktyZycia = this.punktyZycia - ilosc;
                 return "Otrzymano " + ilosc + " obrażeń! Zostało " + this.punktyZycia + " HP.";
             };
             
