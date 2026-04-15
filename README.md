@@ -1,0 +1,2 @@
+# szkolenie
+szkolenie podczas warsztatów
