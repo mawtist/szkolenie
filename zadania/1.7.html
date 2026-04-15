@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temat 7: Wzorce projektowe w JavaScript</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #0056b3; }
+        h2 { color: #d9534f; border-bottom: 2px solid #d9534f; padding-bottom: 5px; }
+        .info { background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .diagram-container { text-align: center; margin: 20px 0; padding: 10px; border: 1px dashed #aaa; background-color: #fff; }
+        .output { background-color: #f8f9fa; padding: 20px; border-left: 5px solid #28a745; font-size: 1.1em; }
+        code { background-color: #ddd; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Moduł 1, Temat 7: Wzorce projektowe (Design Patterns)</h1>
+    
+    <div class="info">
+        <p><strong>Czym są wzorce projektowe?</strong> To sprawdzone "szablony" rozwiązywania popularnych problemów w kodzie. Zamiast wymyślać koło na nowo, korzystamy z doświadczenia tysięcy programistów, którzy mieli ten sam problem przed nami.</p>
+    </div>
+
+    <div class="diagram-container">
+        <p><em>Schemat: Tak działa wzorzec Singleton - zawsze zwraca tę samą, jedną instancję.</em></p>
+        
+    </div>
+
+    <h2>Wynik działania skryptu:</h2>
+    <div class="output" id="pojemnik-na-wyniki">
+        Oczekiwanie na uruchomienie skryptu...
+    </div>
+
+    <script>
+        let wynikiHTML = "";
+
+        // ==========================================
+        // 1. WZORZEC SINGLETON (Jedynak)
+        // ==========================================
+        // Problem: Chcemy mieć pewność, że w całej naszej aplikacji istnieje tylko JEDEN 
+        // egzemplarz danego obiektu (np. jedne główne ustawienia gry, jeden odtwarzacz muzyki).
+        // Jeśli ktoś spróbuje stworzyć drugi, ma otrzymać ten pierwszy.
+
+        class UstawieniaGry {
+            constructor() {
+                // Sprawdzamy, czy "instancja" już istnieje (czy obiekt został już kiedyś stworzony)
+                if (UstawieniaGry.instancja) {
+                    return UstawieniaGry.instancja; // Jeśli tak, zwracamy ten istniejący
+                }
+
+                // Jeśli nie, tworzymy ustawienia po raz pierwszy
+                this.poziomTrudnosci = "Normalny";
+                this.glosnosc = 100;
+                
+                // Zapisujemy ten nowo stworzony obiekt na przyszłość
+                UstawieniaGry.instancja = this;
+            }
+
+            zmienPoziom(nowyPoziom) {
+                this.poziomTrudnosci = nowyPoziom;
+            }
+        }
+
+        wynikiHTML += `<h3>1. Test Singletona:</h3>`;
+
+        // Tworzymy pierwsze ustawienia
+        let ustawieniaBazy = new UstawieniaGry();
+        wynikiHTML += `<p>Ustawienia bazy - Poziom: ${ustawieniaBazy.poziomTrudnosci}</p>`;
+
+        // Programista w innym miejscu kodu myśli, że tworzy NOWE ustawienia...
+        let ustawieniaLevelu2 = new UstawieniaGry();
+        ustawieniaLevelu2.zmienPoziom("Trudny");
+
+        // ...ale dzięki Singletonowi, obie zmienne wskazują na TEN SAM obiekt!
+        wynikiHTML += `<p>Po zmianie w 'ustawieniaLevelu2' na Trudny, sprawdzamy 'ustawieniaBazy': <strong>${ustawieniaBazy.poziomTrudnosci}</strong></p>`;
+        wynikiHTML += `<p>Czy ustawieniaBazy to dokładnie to samo co ustawieniaLevelu2? <strong>${ustawieniaBazy === ustawieniaLevelu2}</strong></p>`;
+
+
+        // ==========================================
+        // 2. WZORZEC FACTORY (Fabryka)
+        // ==========================================
+        // Problem: Chcemy tworzyć różne obiekty (np. potwory w grze), ale nie chcemy za każdym 
+        // razem ręcznie wpisywać "new Ork()", "new Goblin()". Chcemy mieć automat (Fabrykę), 
+        // któremu mówimy "Daj mi Orka", a on zajmuje się resztą.
+
+        // Klasy poszczególnych potworów (zwykle trzymane w innych plikach)
+        class Zombie {
+            constructor(imie) { this.imie = imie; this.typ = "Zombie"; this.hp = 50; }
+        }
+        class Wampir {
+            constructor(imie) { this.imie = imie; this.typ = "Wampir"; this.hp = 120; }
+        }
+
+        // Nasza Fabryka
+        class FabrykaPotworow {
+            stworzPotwora(typPotwora, imie) {
+                if (typPotwora === "zombie") {
+                    return new Zombie(imie);
+                } else if (typPotwora === "wampir") {
+                    return new Wampir(imie);
+                } else {
+                    return `Nie znamy potwora o typie: ${typPotwora}`;
+                }
+            }
+        }
+
+        wynikiHTML += `<h3>2. Test Fabryki:</h3>`;
+        
+        let fabryka = new FabrykaPotworow();
+        
+        // Zamiast wywoływać klasy potworów, gadamy tylko z Fabryką:
+        let potwor1 = fabryka.stworzPotwora("zombie", "Stefan");
+        let potwor2 = fabryka.stworzPotwora("wampir", "Drakula");
+
+        wynikiHTML += `<p>Wyprodukowano: ${potwor1.imie} (${potwor1.typ}), HP: ${potwor1.hp}</p>`;
+        wynikiHTML += `<p>Wyprodukowano: ${potwor2.imie} (${potwor2.typ}), HP: ${potwor2.hp}</p>`;
+
+        // ==========================================
+        // WYŚWIETLENIE WYNIKÓW
+        // ==========================================
+        document.getElementById("pojemnik-na-wyniki").innerHTML = wynikiHTML;
+
+    </script>
+</body>
+</html>
