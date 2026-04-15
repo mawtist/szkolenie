@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadania 2.2: JSON i POST</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #d9534f; }
+        h2 { color: #0275d8; border-bottom: 2px solid #0275d8; padding-bottom: 5px;}
+        .instruction { background-color: #fcf8e3; padding: 15px; border-left: 5px solid #f0ad4e; margin-bottom: 20px; }
+        .task-container { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .git-reminder { background-color: #e8f5e9; padding: 20px; border: 2px dashed #28a745; margin-top: 40px; border-radius: 10px;}
+        .git-reminder h3 { margin-top: 0; color: #155724; }
+        .terminal { background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; margin: 10px 0;}
+        
+        .post-form { background: white; padding: 15px; border-radius: 5px; border: 1px solid #ccc; max-width: 400px;}
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; box-sizing: border-box; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #218838; }
+        .output-box { padding: 15px; background: #fff; border: 1px solid #ccc; min-height: 50px; margin-top: 15px; font-family: monospace;}
+    </style>
+</head>
+<body>
+
+    <h1>Zadania praktyczne: Moduł 2, Temat 2</h1>
+    
+    <div class="instruction">
+        <p><strong>Instrukcja:</strong> Zbudujemy mini-bloga! Poniżej znajduje się formularz do dodawania nowego posta. Twoim zadaniem jest napisać logikę w JavaScript, która złapie dane, zamieni je w JSON i wyśle (POST) do darmowego API <code>https://jsonplaceholder.typicode.com/posts</code>.</p>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie: Dodaj nowy post na bloga</h2>
+        
+        <form id="formularz-posta" class="post-form">
+            <label for="tytul-posta">Tytuł wpisu:</label>
+            <input type="text" id="tytul-posta" placeholder="Napisz chwytliwy tytuł..." required>
+
+            <label for="tresc-posta">Treść wpisu:</label>
+            <textarea id="tresc-posta" rows="4" placeholder="O czym dzisiaj myślisz?" required></textarea>
+
+            <button type="submit">Opublikuj post</button>
+        </form>
+
+        <div id="wynik-zadania" class="output-box">Wynik wysyłania pojawi się tutaj...</div>
+    </div>
+
+    <div class="git-reminder">
+        <h3>🚀 Przypominajka: Zapisz projekt i sprawdź go w sieci!</h3>
+        <p>Skończyłeś pisać kod? Świetnie! Pamiętaj, aby zapisać zmiany w historii Gita i wysłać je do chmury, żeby Twoja strona na GitHub Pages się zaktualizowała.</p>
+        <p><strong>1. Otwórz terminal w folderze projektu i wpisz:</strong></p>
+        <div class="terminal">git add .
+git commit -m "Ukończono zadania z formularzy i metody POST (2.2)"
+git push origin main</div>
+        <p><strong>2. Gdzie sprawdzić efekt?</strong></p>
+        <p>Poczekaj około minuty. Twoja zaktualizowana strona będzie dostępna pod adresem, który skonfigurowaliśmy w zadaniu 2.0. Zazwyczaj jest to:<br>
+        <a href="#" style="color: #0056b3; font-weight: bold;">https://[TWOJA_NAZWA_UZYTKOWNIKA].github.io/kurs-react/</a></p>
+        <p><em>Jeśli zapomniałeś linku, wejdź na GitHuba do swojego repozytorium -> <strong>Settings</strong> -> <strong>Pages</strong> i znajdź swój link na górze strony.</em></p>
+    </div>
+
+    <script>
+        const formularzPosta = document.getElementById('formularz-posta');
+        const ekranWyniku = document.getElementById('wynik-zadania');
+
+        // ==========================================
+        // MIEJSCE NA TWÓJ KOD
+        // ==========================================
+
+        formularzPosta.addEventListener('submit', async (zdarzenie) => {
+            // 1. Zablokuj domyślne odświeżanie strony (użyj na zmiennej 'zdarzenie' metody preventDefault())
+            /* --- TWÓJ KOD TUTAJ --- */
+            zdarzenie.preventDefault();
+
+            // 2. Złap to, co wpisał użytkownik.
+            // Użyj document.getElementById('id-elementu').value
+            /* --- TWÓJ KOD TUTAJ --- */
+            // const tytul = ...
+            // const tresc = ...
+             const tytul = document.getElementById('tytul').value;
+            const tresc = document.getElementById('tresc').value;
+
+            // 3. Zbuduj obiekt o nazwie np. 'nowyPost'.
+            // Niech ma właściwości: 'title', 'body' oraz 'userId' (ustaw userId po prostu na liczbę 1).
+            /* --- TWÓJ KOD TUTAJ --- */
+            const nowyPost = {
+            title: tytul,
+            body: tresc,
+            userId: 1
+            };
+            
+
+            ekranWyniku.innerHTML = "Wysyłanie do serwera...";
+
+            try {
+                // 4. Skonfiguruj i wywołaj fetch.
+                // Adres: 'https://jsonplaceholder.typicode.com/posts'
+                // W obiekcie konfiguracyjnym ustaw method na 'POST', body na z-stringify-owany 'nowyPost' 
+                // i nie zapomnij o headers z 'Content-Type': 'application/json'
+                
+                /* --- TWÓJ KOD TUTAJ --- */
+                // const odpowiedz = await fetch( ... );
+                
+                const odpowiedz = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                body: JSON.stringify(nowyPost),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                });
+                if (!odpowiedz.ok) throw new Error("Błąd serwera");
+
+                const zapisanyPost = await odpowiedz.json();
+                ekranWyniku.innerHTML = "Dodano! ID posta to: " + zapisanyPost.id;
+
+                // 5. Rozpakuj odpowiedź JSON i wyświetl ją na ekranie!
+                // if (!odpowiedz.ok) throw new Error("Błąd serwera");
+                // const zapisanyPost = await odpowiedz.json();
+                // ekranWyniku.innerHTML = "Dodano! ID posta to: " + zapisanyPost.id;
+                
+                /* --- TWÓJ KOD TUTAJ --- */
+                
+
+            } catch (blad) {
+                ekranWyniku.innerHTML = "Błąd: " + blad.message;
+            }
+        });
+
+    </script>
+</body>
+</html>
