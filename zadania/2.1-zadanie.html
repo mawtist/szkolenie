@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadania 2.1: Fetch i API</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #d9534f; }
+        h2 { color: #0275d8; border-bottom: 2px solid #0275d8; padding-bottom: 5px;}
+        .instruction { background-color: #fcf8e3; padding: 15px; border-left: 5px solid #f0ad4e; margin-bottom: 20px; }
+        .task-container { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .joke-box { background-color: #fff; padding: 20px; border-left: 5px solid #9c27b0; font-size: 1.2em; margin-top: 15px; min-height: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; margin-top: 10px;}
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <h1>Zadania praktyczne: Moduł 2, Temat 1</h1>
+    
+    <div class="instruction">
+        <p><strong>Instrukcja:</strong> Twoim zadaniem jest napisanie kodu, który połączy się z serwerem i pobierze losowy żart programistyczny. Kod pisz wewnątrz tagu <code>&lt;script&gt;</code> na samym dole pliku. Zwróć uwagę na komentarze!</p>
+    </div>
+
+    <div class="task-container">
+        <h2>Zadanie: Generator sucharów IT</h2>
+        <p>Będziemy korzystać z darmowego API: <code>https://official-joke-api.appspot.com/random_joke</code>.</p>
+        <p>API to zwraca obiekt, który posiada dwie ważne właściwości: <strong>setup</strong> (wstęp do żartu) oraz <strong>punchline</strong> (pointa).</p>
+        
+        <button id="guzik-zart">Opowiedz mi żart!</button>
+        
+        <div id="miejsce-na-zart" class="joke-box">
+            Kliknij przycisk, aby pobrać żart z serwera...
+        </div>
+    </div>
+
+    <script>
+        // Łapiemy elementy z HTML
+        const guzikZart = document.getElementById('guzik-zart');
+        const miejsceNaZart = document.getElementById('miejsce-na-zart');
+
+        // ==========================================
+        // MIEJSCE NA TWÓJ KOD
+        // ==========================================
+        
+        // 1. Stwórz funkcję o nazwie 'pobierzZart'. 
+        // Pamiętaj, aby przed słowem function dodać słowo 'async'!
+        
+        /* --- TWÓJ KOD TUTAJ --- */
+        async function pobierzZart() {
+            // Zmieniamy tekst podczas ładowania
+            miejsceNaZart.innerHTML = "<em>Łączenie z serwerem...</em>";
+
+            try {
+                // 2. Użyj 'await fetch(adres_url)' aby pobrać dane z podanego wyżej adresu.
+                // Wynik zapisz do zmiennej np. 'odpowiedz'.
+                
+                /* --- TWÓJ KOD TUTAJ --- */
+                
+                let odpowiedz = await fetch('https://official-joke-api.appspot.com/random_joke');
+                // 3. Rozpakuj dane do JSON używając 'await odpowiedz.json()'.
+                // Wynik zapisz do zmiennej np. 'zartDane'.
+                
+                /* --- TWÓJ KOD TUTAJ --- */
+                let zartDane = await odpowiedz.json();
+
+                // 4. Podmień treść w HTML (miejsceNaZart.innerHTML).
+                // Użyj backticków (` `), aby połączyć wstęp (zartDane.setup) i pointę (zartDane.punchline).
+                // Np.: `<p>${zartDane.setup}</p><strong>${zartDane.punchline}</strong>`
+                
+                /* --- TWÓJ KOD TUTAJ --- */
+                miejsceNaZart.innerHTML = `<p>${zartDane.setup}</p><strong>${zartDane.punchline}</strong>`;
+
+            } catch (blad) {
+                // Jeśli coś pójdzie nie tak (np. brak internetu)
+                miejsceNaZart.innerHTML = "Niestety, serwer żartów jest dzisiaj smutny. Błąd: " + blad;
+            }
+        }
+
+        // ==========================================
+        // Podpięcie kliknięcia (nic tu nie zmieniaj)
+        // ==========================================
+        guzikZart.addEventListener('click', pobierzZart);
+
+    </script>
+</body>
+</html>
