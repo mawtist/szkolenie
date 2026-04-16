@@ -1,0 +1,17 @@
+{
+  "name": "Szkolny Shoutbox PRO",
+  "short_name": "Shoutbox",
+  "description": "Klasowy komunikator",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#8e44ad",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1041/1041916.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
