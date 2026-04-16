@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zadania 2.3: Pamięć LocalStorage</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+        h1 { color: #d9534f; }
+        h2 { color: #0275d8; border-bottom: 2px solid #0275d8; padding-bottom: 5px;}
+        .instruction { background-color: #fcf8e3; padding: 15px; border-left: 5px solid #f0ad4e; margin-bottom: 20px; }
+        .task-container { background-color: #f9f9f9; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        
+        .login-box { background: white; padding: 20px; border-radius: 5px; border: 1px solid #ccc; max-width: 400px; text-align: center;}
+        input { width: 80%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+        button.logout { background-color: #dc3545; margin-top: 15px; }
+        
+        .welcome-screen { display: none; background-color: #d4edda; color: #155724; padding: 20px; border-radius: 5px; border: 1px solid #c3e6cb; max-width: 400px; text-align: center;}
+        
+        /* Git Reminder Style */
+        .git-reminder { background-color: #e8f5e9; padding: 20px; border: 2px dashed #28a745; margin-top: 40px; border-radius: 10px;}
+        .git-reminder h3 { margin-top: 0; color: #155724; }
+        .terminal { background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; margin: 10px 0;}
+    </style>
+</head>
+<body>
+
+    <h1>Zadania praktyczne: Moduł 2, Temat 3</h1>
+    
+    <div class="instruction">
+        <p><strong>Instrukcja:</strong> Zbudujemy system "zapamiętaj mnie". Zobacz na formularz poniżej. Jeśli wpiszesz imię i klikniesz Zapisz, powinieneś zobaczyć ekran powitalny. Nawet po odświeżeniu strony, ekran powitalny powinien od razu tam być!</p>
+    </div>
+
+    <div class="task-container">
+        
+        <div id="ekran-logowania" class="login-box">
+            <h3>Jak masz na imię?</h3>
+            <input type="text" id="input-imie" placeholder="Wpisz imię...">
+            <br>
+            <button id="btn-zapisz">Zapamiętaj mnie</button>
+        </div>
+
+        <div id="ekran-powitalny" class="welcome-screen">
+            <h3>Witaj ponownie, <span id="miejsce-na-imie"></span>!</h3>
+            <p>Fajnie, że wróciłeś. Pamiętałem Cię!</p>
+            <button id="btn-wyloguj" class="logout">Zapomnij mnie (Wyloguj)</button>
+        </div>
+
+    </div>
+
+    <div class="git-reminder">
+        <h3>🚀 Przypominajka: Zapisz projekt i sprawdź go w sieci!</h3>
+        <p>Moduł 2 jest kompletny! Wyślij kod do GitHuba i pochwal się tym np. na smartfonie.</p>
+        <p><strong>1. Otwórz terminal w folderze projektu i wpisz:</strong></p>
+        <div class="terminal">git add .
+git commit -m "Zakończenie modułu 2: LocalStorage i API"
+git push origin main</div>
+        <p><strong>2. Gdzie sprawdzić efekt?</strong></p>
+        <p>Wejdź na: <a href="#" style="color: #0056b3; font-weight: bold;">https://[TWOJA_NAZWA_UZYTKOWNIKA].github.io/kurs-react/</a> i przetestuj wpisywanie imienia. Odśwież stronę, a zobaczysz, że wszystko działa, nawet gdy strona jest zahostowana publicznie!</p>
+    </div>
+
+    <script>
+        const ekranLogowania = document.getElementById('ekran-logowania');
+        const ekranPowitalny = document.getElementById('ekran-powitalny');
+        const inputImie = document.getElementById('input-imie');
+        const miejsceNaImie = document.getElementById('miejsce-na-imie');
+        const btnZapisz = document.getElementById('btn-zapisz');
+        const btnWyloguj = document.getElementById('btn-wyloguj');
+
+        // ==========================================
+        // MIEJSCE NA TWÓJ KOD
+        // ==========================================
+
+        // FUNKCJA POMOCNICZA: Aktualizuje to co widać na ekranie
+        function pokazEkran() {
+            // 1. Sprawdź, czy w localStorage istnieje coś pod kluczem 'zapisaneImie'
+            /* --- TWÓJ KOD TUTAJ --- */
+            // let imieZSejfu = ...
+            let imieZSejfu = localStorage.getItem('zapisaneImie');
+
+            if (imieZSejfu) {
+                // Jeśli imie istnieje: ukryj ekran logowania, pokaż ekran powitalny 
+                // i wstaw imię do spanu 'miejsceNaImie'.
+                ekranLogowania.style.display = 'none';
+                ekranPowitalny.style.display = 'block';
+                miejsceNaImie.innerText = imieZSejfu;
+            } else {
+                // Jeśli imienia NIE ma: pokaż ekran logowania, ukryj powitalny.
+                ekranLogowania.style.display = 'block';
+                ekranPowitalny.style.display = 'none';
+            }
+        }
+
+        // AKCJA 1: Co się dzieje po kliknięciu "Zapamiętaj mnie"
+        btnZapisz.addEventListener('click', () => {
+            // Złap wartość z inputu (inputImie.value)
+            // Zapisz ją w LocalStorage pod kluczem 'zapisaneImie'
+            // Wywołaj funkcję pokazEkran()
+            
+            /* --- TWÓJ KOD TUTAJ --- */
+            localStorage.setItem( 'zapisaneImie', inputImie.value );
+            pokazEkran();
+            
+        });
+
+        // AKCJA 2: Co się dzieje po kliknięciu "Wyloguj"
+        btnWyloguj.addEventListener('click', () => {
+            // Usuń klucz 'zapisaneImie' z LocalStorage
+            // Wywołaj funkcję pokazEkran()
+            
+            /* --- TWÓJ KOD TUTAJ --- */
+            localStorage.removeItem( 'zapisaneImie' );
+            pokazEkran();
+
+            
+            
+        });
+
+        // KROK POCZĄTKOWY: Po wejściu na stronę natychmiast sprawdź stan
+        pokazEkran();
+
+    </script>
+</body>
+</html>
