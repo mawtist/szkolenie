@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt Finałowy Modułu 2: Klasowy Shoutbox</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; line-height: 1.6; color: #333; background-color: #f4f7f6; }
+        h1 { color: #0056b3; text-align: center; margin-bottom: 30px;}
+        h2 { color: #d9534f; border-bottom: 2px solid #d9534f; padding-bottom: 5px; margin-top: 20px;}
+        
+        /* Stylizacja zakładek (Tabs) */
+        .tabs { display: flex; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;}
+        .tab-button { padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 5px; transition: 0.3s; color: #495057; }
+        .tab-button:hover { background-color: #dbe0e5; }
+        .tab-button.active { background-color: #0056b3; color: white; border-color: #0056b3; }
+        
+        /* Zawartość zakładek */
+        .tab-content { display: none; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Elementy pomocnicze */
+        .info { background-color: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #0056b3;}
+        .warning { background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #ffc107;}
+        .code-block { background-color: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 1.1em; margin-bottom: 20px; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; }
+        .terminal { background-color: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; margin: 10px 0; overflow-x: auto;}
+        .diagram-container { text-align: center; margin: 20px 0; padding: 10px; border: 1px dashed #aaa; background-color: #fdfdfd; }
+        
+        /* Style do aplikacji ucznia */
+        .app-preview { border: 2px solid #ccc; padding: 20px; border-radius: 10px; background-color: #fafafa; margin-top: 20px;}
+        input, button { padding: 10px; font-size: 16px; margin: 5px 0; box-sizing: border-box; }
+        button { background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .chat-window { height: 250px; overflow-y: auto; background: white; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+        .msg { margin: 5px 0; padding: 8px; background-color: #f1f1f1; border-radius: 5px;}
+        .msg-author { font-weight: bold; color: #0056b3; margin-right: 5px;}
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Projekt Finałowy: Klasowy Shoutbox (Czat)</h1>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab('zad1')">Zad 1: Logowanie</button>
+        <button class="tab-button" onclick="openTab('zad2')">Zad 2: Pobieranie (GET)</button>
+        <button class="tab-button" onclick="openTab('zad3')">Zad 3: Polling (Odświeżanie)</button>
+        <button class="tab-button" onclick="openTab('zad4')">Zad 4: Wysyłanie (POST)</button>
+        <button class="tab-button" onclick="openTab('zad-backend')" style="background-color: #ffeeba; border-color: #ffc107; color: #856404;">Zad: Własny Backend</button>
+    </div>
+
+    <div id="zad1" class="tab-content active">
+        <h2>Zadanie 1: Ekran logowania (LocalStorage)</h2>
+        <div class="info">
+            <p>Zanim wpuścimy kogoś na czat, musimy wiedzieć, jak się nazywa. Użyjemy do tego znanej Ci już pamięci <strong>LocalStorage</strong>.</p>
+        </div>
+        <p><strong>Twoje zadanie:</strong> Zbuduj logikę, która pobiera Nick z pola tekstowego, zapisuje go w LocalStorage i ukrywa ekran logowania, pokazując interfejs czatu.</p>
+        
+        <div class="app-preview">
+            <div id="ekran-logowania">
+                <h3>Podaj swój nick, aby wejść na czat:</h3>
+                <input type="text" id="input-nick" placeholder="Np. JanekProgramista" required>
+                <button id="btn-wejdz">Wejdź na czat</button>
+            </div>
+            
+            <div id="ekran-czatu" style="display: none;">
+                <h3>Jesteś zalogowany jako: <span id="moj-nick-wyswietlacz"></span></h3>
+                <p><em>(Interfejs czatu pojawi się w kolejnym zadaniu)</em></p>
+                <button id="btn-wyloguj" style="background-color: #dc3545;">Wyloguj</button>
+            </div>
+        </div>
+
+        <div class="code-block"><span class="comment">// Podpowiedź do kodu JS (napisz go w swoim własnym pliku app.js):</span>
+<span class="keyword">const</span> btnWejdz = document.getElementById(<span class="string">'btn-wejdz'</span>);
+<span class="keyword">const</span> inputNick = document.getElementById(<span class="string">'input-nick'</span>);
+
+btnWejdz.addEventListener(<span class="string">'click'</span>, () => {
+    <span class="keyword">const</span> nick = inputNick.value;
+    <span class="keyword">if</span>(nick) {
+        localStorage.setItem(<span class="string">'shoutboxNick'</span>, nick);
+        <span class="comment">// TODO: Napisz funkcję, która ukrywa logowanie i pokazuje czat</span>
+    }
+});</div>
+    </div>
+
+    <div id="zad2" class="tab-content">
+        <h2>Zadanie 2: Pobieranie wiadomości (GET)</h2>
+        <div class="info">
+            <p>Prowadzący udostępni Ci adres serwera (tzw. <strong>Endpoint API</strong>). Pod tym adresem serwer zwraca tablicę wiadomości w formacie JSON.</p>
+        </div>
+        
+        <div class="diagram-container">
+            <p><em>Schemat: Tak Twoja przeglądarka komunikuje się z naszym klasowym serwerem za pomocą formatu JSON.</em></p>
+            
+        </div>
+
+        <p><strong>Twoje zadanie:</strong> Napisz asynchroniczną funkcję <code>pobierzWiadomosci()</code>, która użyje <code>fetch</code>, zdekoduje JSON-a, wyczyści okno czatu, a następnie użyje pętli <code>forEach</code>, aby wkleić nowe wiadomości do HTML.</p>
+        
+        <div class="app-preview">
+            <div class="chat-window" id="okno-czatu">
+                <em>Tutaj pojawią się wiadomości z serwera...</em>
+            </div>
+            <button onclick="alert('Podepnij pod to swoją funkcję fetch!')">Ręczne pobranie wiadomości</button>
+        </div>
+
+        <div class="code-block"><span class="comment">// Przykładowa struktura, którą zwróci Ci serwer:</span>
+[
+  { <span class="string">"author"</span>: <span class="string">"Kasia"</span>, <span class="string">"text"</span>: <span class="string">"Cześć klasa!"</span> },
+  { <span class="string">"author"</span>: <span class="string">"Marek"</span>, <span class="string">"text"</span>: <span class="string">"Udało mi się zrobić fetch!"</span> }
+]</div>
+    </div>
+
+    <div id="zad3" class="tab-content">
+        <h2>Zadanie 3: Polling (Odpytywanie serwera)</h2>
+        <div class="warning">
+            <p>Skoro to serwer API (REST), sam z siebie nie powiadomi nas, gdy ktoś inny wyśle wiadomość. Musimy o to pytać ciągle, z uporem maniaka. To tzw. <strong>Short Polling</strong>.</p>
+        </div>
+        
+        <div class="diagram-container">
+            <p><em>Schemat: Zjawisko "Short Pollingu" - ciągłe odpytywanie serwera o nowe dane.</em></p>
+            
+        </div>
+
+        <p><strong>Twoje zadanie:</strong> Spraw, aby czat wydawał się działać "w czasie rzeczywistym". Użyj wbudowanej w JavaScript funkcji <code>setInterval</code>, aby Twoja funkcja <code>pobierzWiadomosci()</code> z Zadania 2 uruchamiała się automatycznie co np. 3 sekundy.</p>
+
+        <div class="code-block"><span class="comment">// Jak działa setInterval?</span>
+<span class="comment">// Przyjmuje dwa argumenty: 1. Funkcję do odpalenia, 2. Czas w milisekundach.</span>
+
+setInterval(pobierzWiadomosci, 3000); 
+<span class="comment">// Gotowe! Twoja aplikacja sama puka do serwera co 3 sekundy.</span></div>
+    </div>
+
+    <div id="zad4" class="tab-content">
+        <h2>Zadanie 4: Wysyłanie wiadomości (POST)</h2>
+        <div class="info">
+            <p>Widzimy już, co piszą inni. Czas, aby inni zobaczyli, co piszemy my!</p>
+        </div>
+        <p><strong>Twoje zadanie:</strong> Napisz kod obsługujący wysłanie formularza. Skrypt musi pobrać nick (z LocalStorage) i wpisany tekst, zbudować z nich obiekt JSON, a następnie wysłać go <code>fetch</code>em na serwer za pomocą metody <strong>POST</strong>.</p>
+        
+        <div class="app-preview">
+            <form id="formularz-wiadomosci">
+                <input type="text" id="input-wiadomosc" placeholder="Napisz wiadomość..." style="width: 70%;" required>
+                <button type="submit" style="width: 25%;">Wyślij</button>
+            </form>
+        </div>
+
+        <div class="code-block"><span class="comment">// Pamiętaj o zapobieganiu odświeżeniu strony przy formularzach!</span>
+formularzWiadomosci.addEventListener(<span class="string">'submit'</span>, <span class="keyword">async</span> (event) => {
+    event.preventDefault(); 
+    
+    <span class="keyword">const</span> nowaWiadomosc = {
+        author: localStorage.getItem(<span class="string">'shoutboxNick'</span>),
+        text: document.getElementById(<span class="string">'input-wiadomosc'</span>).value
+    };
+
+    <span class="comment">// TODO: Użyj fetch z metodą 'POST' i prześlij 'nowaWiadomosc' jako JSON.</span>
+    <span class="comment">// Pamiętaj o wyczyszczeniu pola input po wysłaniu!</span>
+});</div>
+    </div>
+
+    <div id="zad-backend" class="tab-content">
+        <h2>Bonus: Zbuduj własny serwer (Express.js)</h2>
+        <div class="info">
+            <p>Nie musisz polegać na serwerze udostępnionym przez prowadzącego. Posiadasz na komputerze niezbędne narzędzia do postawienia własnego API w technologii <strong>Node.js</strong>. Spróbujmy!</p>
+        </div>
+
+        <p><strong>Krok 1: Inicjalizacja projektu</strong><br>
+        Stwórz nowy folder (np. <code>moj-serwer</code>). Otwórz w nim terminal i zainstaluj bibliotekę <strong>Express.js</strong> oraz wtyczkę <strong>CORS</strong> (aby odblokować komunikację między przeglądarką a serwerem na różnych portach).</p>
+
+        <div class="terminal">> npm init -y
+> npm install express cors</div>
+
+        <p><strong>Krok 2: Serwer w pliku server.js</strong><br>
+        Stwórz plik <code>server.js</code> i wklej ten kod. Tworzy on prostą bazę danych w pamięci RAM i wystawia dwa endpointy API (GET i POST).</p>
+
+        <div class="code-block"><span class="keyword">const</span> express = require(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = require(<span class="string">'cors'</span>);
+<span class="keyword">const</span> app = express();
+
+<span class="comment">// Włączamy middleware: CORS i obsługę JSON-a</span>
+app.use(cors());
+app.use(express.json());
+
+<span class="comment">// Nasza "baza danych" (zniknie po zrestartowaniu serwera)</span>
+<span class="keyword">let</span> messages = [
+    { author: <span class="string">"System"</span>, text: <span class="string">"Witaj na nowym serwerze klasowym!"</span> }
+];
+
+<span class="comment">// ENDPOINT 1: Pobieranie wiadomości (GET)</span>
+app.get(<span class="string">'/api/messages'</span>, (req, res) => {
+    <span class="comment">// Zwracamy tablicę do przeglądarki klienta</span>
+    res.json(messages);
+});
+
+<span class="comment">// ENDPOINT 2: Odbieranie nowej wiadomości (POST)</span>
+app.post(<span class="string">'/api/messages'</span>, (req, res) => {
+    <span class="keyword">const</span> newMsg = req.body;
+    
+    <span class="keyword">if</span> (!newMsg.author || !newMsg.text) {
+        <span class="keyword">return</span> res.status(400).json({ error: <span class="string">"Brakuje autora lub tekstu!"</span> });
+    }
+
+    <span class="comment">// Dodajemy wiadomość do tablicy</span>
+    messages.push(newMsg);
+    
+    <span class="comment">// Ograniczamy do 50 ostatnich wiadomości, żeby nie zapchać pamięci</span>
+    <span class="keyword">if</span> (messages.length > 50) messages.shift();
+
+    <span class="comment">// Odpowiadamy sukcesem</span>
+    res.status(201).json({ status: <span class="string">"OK"</span> });
+});
+
+<span class="comment">// Uruchamiamy nasłuchiwanie na porcie 3000</span>
+<span class="keyword">const</span> PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Serwer działa pod adresem: http://localhost:${PORT}`);
+    console.log(`➡️ Endpoint GET: http://localhost:${PORT}/api/messages`);
+});</div>
+
+        <p><strong>Krok 3: Uruchomienie</strong><br>
+        Wpisz w terminalu:</p>
+        <div class="terminal">> node server.js</div>
+        <p>Teraz Twój kod z przeglądarki może używać adresu <code>http://localhost:3000/api/messages</code> do odbierania i wysyłania wiadomości!</p>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            // Ukryj wszystkie zawartości
+            let contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+            
+            // Odznacz wszystkie przyciski
+            let buttons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            // Pokaż wybraną zakładkę
+            document.getElementById(tabId).classList.add("active");
+            
+            // Zaznacz kliknięty przycisk (szukamy po event.target)
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

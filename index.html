@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Szkolenie</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <script src="script.js"></script>
+    <div class="app-container">
+        <h1>💬 Shoutbox</h1>
+
+        <div id="ekran-logowania">
+            <input type="text" id="input-nick" placeholder="Podaj swój nick...">
+            <button id="btn-zaloguj">Wejdź</button>
+        </div>
+        <div id="ekran-czatu" class="ukryte">
+            <div class="header-czatu">
+                <span>Zalogowano jako: <strong id="wybrany-nick"></strong></span>
+                <button id="btn-wyloguj">Wyloguj</button>
+            </div>
+            <input type="text" id="input-szukaj" placeholder="Szukaj w wiadomościach...">
+
+            <div id="okno-wiadomosci"></div>
+
+            <form id="formularz-wiadomosci">
+                <input type="text" id="input-wiadomosc" placeholder="Napisz coś..." required autocomplete="off">
+                <button type="submit">Wyślij</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
 </body>
 </html>

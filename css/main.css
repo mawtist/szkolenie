@@ -1,0 +1,25 @@
+.ukryte {
+    display: none !important;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#okno-wiadomosci {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 15px 0;
+    background: #f9f9f9;
+}
+
+.msg { padding: 5px; border-bottom: 1px dashed #eee; }
+.msg-time { font-size: 0.8em; color: #888; }
+.msg-author { color: #2980b9; font-weight: bold; }
